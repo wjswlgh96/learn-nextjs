@@ -1,7 +1,33 @@
-import { PageProps } from "../../../../.next/types/app/layout";
+import { Suspense } from "react";
 
-export default function MovieDetail(props: PageProps) {
-  const { params, searchParams } = props;
+import MovieInfo from "../../../../components/movie-info";
+import MovieVideos from "../../../../components/movie-videos";
+import { Skeleton } from "@mui/material";
 
-  return <h1>Movie {params.id}</h1>;
+export default async function MovieDetail({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  return (
+    <div>
+      <Suspense
+        fallback={<Skeleton variant="rounded" width={200} height={120} />}
+      >
+        <MovieInfo id={id} />
+      </Suspense>
+      <Suspense
+        fallback={
+          <Skeleton
+            style={{ marginTop: "30px" }}
+            variant="rounded"
+            width={200}
+            height={120}
+          />
+        }
+      >
+        <MovieVideos id={id} />
+      </Suspense>
+    </div>
+  );
 }
