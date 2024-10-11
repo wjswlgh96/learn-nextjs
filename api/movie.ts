@@ -1,3 +1,5 @@
+import { MovieType } from "../types/data/movie";
+import { MovieVideoType } from "../types/data/movieVideo";
 import { API_URL } from "./apiUrls";
 
 export async function getMovies() {
@@ -7,14 +9,15 @@ export async function getMovies() {
 }
 
 export async function getMovie(id: string) {
-  await new Promise((result) => setTimeout(result, 3000));
-  const response = await fetch(`${API_URL}/${id}`);
-  return response.json();
+  const response: MovieType = await fetch(`${API_URL}/${id}`).then((res) =>
+    res.json()
+  );
+  return response;
 }
 
 export async function getVideos(id: string) {
-  await new Promise((result) => setTimeout(result, 3000));
-  //throw new Error("무언가가 잘못되었습니다.");
-  const response = await fetch(`${API_URL}/${id}/videos`);
-  return response.json();
+  const response: MovieVideoType[] = await fetch(
+    `${API_URL}/${id}/videos`
+  ).then((res) => res.json());
+  return response;
 }

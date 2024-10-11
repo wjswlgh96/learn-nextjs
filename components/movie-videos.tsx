@@ -1,11 +1,19 @@
 import { getVideos } from "../api/movie";
 
+import styles from "../styles/movieVideos.module.css";
+
 export default async function MovieVideos({ id }: { id: string }) {
-  const videos: any = await getVideos(id);
+  const videos = await getVideos(id);
   return (
-    <div>
+    <div className={styles.container}>
       {videos.map((video) => (
-        <h6 key={video.id}>{JSON.stringify(video)}</h6>
+        <iframe
+          key={video.id}
+          src={`https://youtube.com/embed/${video.key}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
+          allowFullScreen
+          title={video.name}
+        />
       ))}
     </div>
   );

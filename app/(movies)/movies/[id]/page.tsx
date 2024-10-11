@@ -3,26 +3,40 @@ import { Suspense } from "react";
 import MovieInfo from "../../../../components/movie-info";
 import MovieVideos from "../../../../components/movie-videos";
 import { Skeleton } from "@mui/material";
+import { MovieDetailProps } from "../../../../types/props/movieDetail";
+import { getMovie } from "../../../../api/movie";
+import { MovieType } from "../../../../types/data/movie";
+
+export async function generateMetadata({ params: { id } }: MovieDetailProps) {
+  const movie = await getMovie(id);
+
+  return {
+    title: movie.title,
+  };
+}
 
 export default async function MovieDetail({
   params: { id },
-}: {
-  params: { id: string };
-}) {
+}: MovieDetailProps) {
   return (
     <div>
       <Suspense
-        fallback={<Skeleton variant="rounded" width={200} height={120} />}
+        fallback={
+          <Skeleton
+            sx={{ bgcolor: "grey.900", width: "100%", height: "30vh" }}
+            animation="wave"
+            variant="rounded"
+          />
+        }
       >
         <MovieInfo id={id} />
       </Suspense>
       <Suspense
         fallback={
           <Skeleton
-            style={{ marginTop: "30px" }}
+            sx={{ width: "100%", height: "30vh", bgcolor: "grey.900", mt: 3 }}
+            animation="wave"
             variant="rounded"
-            width={200}
-            height={120}
           />
         }
       >
